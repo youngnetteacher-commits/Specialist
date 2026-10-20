@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Controllers
 builder.Services.AddControllers();
 
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // DI — сервисы
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IEmailService, PrimaryEmailService>();
@@ -17,7 +21,10 @@ builder.Services.AddValidatorsFromAssembly(typeof(CreateLeadDtoValidator).Assemb
 
 var app = builder.Build();
 
-// Middleware pipeline
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
